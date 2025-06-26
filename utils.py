@@ -10,6 +10,9 @@ def compute_difference_coarray(sensor_positions):
             lags.append(i - j)
     coarray = np.array(lags)
     coarray = np.unique(coarray)
+    coarray = np.abs(coarray)
+    coarray = np.sort(coarray)
+    coarray = np.unique(coarray)
     return coarray
 
 def prepare_grid(range, coarray):
@@ -21,11 +24,10 @@ def prepare_grid(range, coarray):
             grid["IsCovered"].append(True)
         else:
             grid["IsCovered"].append(False)
-    
     grid = pd.DataFrame(grid)
     return grid
 
-def visualize_consecutive_lags(grid, ncols=10, title='Consecutive Lags Visualization'):
+def visualize_consecutive_lags(grid, ncols=10, title='Consecutive Lags Visualization', save=False, save_path='figures/consecutive_lags_visualization.png', show=True):
     neg_grid = grid[grid['Positions'] < 0].sort_values('Positions', ascending=False)
     zero_grid = grid[grid['Positions'] == 0]
     pos_grid = grid[grid['Positions'] > 0].sort_values('Positions')
@@ -53,7 +55,7 @@ def visualize_consecutive_lags(grid, ncols=10, title='Consecutive Lags Visualiza
         circle = Circle((center_x, center_y), circle_radius, facecolor=facecolor, edgecolor='black')
         ax.add_patch(circle)
         text_color = 'black' if covered else 'white'
-        ax.text(center_x, center_y, str(pos), ha='center', va='center', color=text_color, fontsize=16)
+        ax.text(center_x, center_y, str(pos), ha='center', va='center', color=text_color, fontsize=14)
     
     for i, (pos, covered) in enumerate(zip(pos_grid['Positions'], pos_grid['IsCovered'])):
         row = i // ncols_pos
@@ -64,7 +66,7 @@ def visualize_consecutive_lags(grid, ncols=10, title='Consecutive Lags Visualiza
         circle = Circle((center_x, center_y), circle_radius, facecolor=facecolor, edgecolor='black')
         ax.add_patch(circle)
         text_color = 'black' if covered else 'white'
-        ax.text(center_x, center_y, str(pos), ha='center', va='center', color=text_color, fontsize=16)
+        ax.text(center_x, center_y, str(pos), ha='center', va='center', color=text_color, fontsize=14)
     
     if not zero_grid.empty:
         zero_pos = zero_grid['Positions'].iloc[0]
@@ -75,7 +77,7 @@ def visualize_consecutive_lags(grid, ncols=10, title='Consecutive Lags Visualiza
         circle = Circle((center_x, center_y), circle_radius, facecolor=facecolor, edgecolor='black')
         ax.add_patch(circle)
         text_color = 'black' if zero_covered else 'white'
-        ax.text(center_x, center_y, str(zero_pos), ha='center', va='center', color=text_color, fontsize=16)
+        ax.text(center_x, center_y, str(zero_pos), ha='center', va='center', color=text_color, fontsize=14)
     
     ax.set_xlim(-0.5 * cell_size, (total_cols - 0.5) * cell_size)
     ax.set_ylim((nrows - 0.5) * cell_size, -0.5 * cell_size)  # Reversed y-axis to place zero at top
@@ -87,6 +89,14 @@ def visualize_consecutive_lags(grid, ncols=10, title='Consecutive Lags Visualiza
     ax.set_title(title, fontsize=16)
     ax.set_xticks([])
     ax.set_yticks([])
-    
+
     plt.tight_layout()
-    plt.show()
+    plt.show() if show else None
+
+    if save:
+        fig.savefig(save_path, bbox_inches='tight')
+        print(f"Figure saved to {save_path}")
+    
+    
+
+    

@@ -23,4 +23,8 @@ if __name__ == "__main__":
     grid = prepare_grid(range_value, coarray)
 
     # Visualize the consecutive lags
-    visualize_consecutive_lags(grid, ncols=10)
+    visualize_consecutive_lags(
+        grid, ncols=10, save=True,
+        save_path='figures/consecutive_lags_CATARCS_visualization.png',
+        show=True
+        )

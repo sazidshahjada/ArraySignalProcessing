@@ -9,14 +9,11 @@ class CATARCSModel:
         self.number_of_sensors = 2 * self.M + self.N - 1
 
     def sensor_positions(self):
-        # Use d=1 for integer positions (normalized units)
-        d_normalized = 1
-        
         # Subarray 1: N sensors, starting at 0
-        S1 = [i * self.M_prime * d_normalized for i in range(0, self.N)]
+        S1 = [i * self.M_prime * self.d for i in range(0, self.N)]
         
         # Subarray 2: 2M-1 sensors, translocated by L
-        S2 = [(i * self.N + self.L) * d_normalized 
+        S2 = [(i * self.N + self.L) * self.d
               for i in range(0, 2 * self.M - 1)]
         
         # Combine and sort sensor positions
