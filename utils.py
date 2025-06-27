@@ -15,6 +15,7 @@ def compute_difference_coarray(sensor_positions):
     coarray = np.unique(coarray)
     return coarray
 
+
 def prepare_grid(range, coarray):
     grid = {"Positions": [], "IsCovered": []}
     space = np.arange(-range, range + 1)
@@ -26,6 +27,7 @@ def prepare_grid(range, coarray):
             grid["IsCovered"].append(False)
     grid = pd.DataFrame(grid)
     return grid
+
 
 def visualize_consecutive_lags(grid, ncols=10, title='Consecutive Lags Visualization', save=False, save_path='figures/consecutive_lags_visualization.png', show=True):
     neg_grid = grid[grid['Positions'] < 0].sort_values('Positions', ascending=False)
