@@ -10,9 +10,7 @@ def compute_difference_coarray(sensor_positions):
             lags.append(i - j)
     coarray = np.array(lags)
     coarray = np.unique(coarray)
-    coarray = np.abs(coarray)
     coarray = np.sort(coarray)
-    coarray = np.unique(coarray)
     return coarray
 
 
@@ -21,7 +19,7 @@ def prepare_grid(range, coarray):
     space = np.arange(-range, range + 1)
     for pos in space:
         grid["Positions"].append(pos)
-        if np.abs(pos) in coarray:
+        if pos in coarray:
             grid["IsCovered"].append(True)
         else:
             grid["IsCovered"].append(False)
