@@ -12,6 +12,7 @@ if __name__ == "__main__":
 
     # Get sensor positions
     sensor_positions = catarcs_model.sensor_positions()
+    print("Number of Sensors:", catarcs_model.number_of_sensors)
     print("Sensor Positions:", sensor_positions)
 
     # Compute the difference coarray
@@ -19,7 +20,7 @@ if __name__ == "__main__":
     print("Difference Coarray:", coarray)
 
     # Prepare the grid for visualization
-    range_value = 40  # Define the range for the grid
+    range_value = 50  # Define the range for the grid
     grid = prepare_grid(range_value, coarray)
 
     # Visualize the consecutive lags
