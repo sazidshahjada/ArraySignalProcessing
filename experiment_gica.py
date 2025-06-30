@@ -1,28 +1,26 @@
-from mathmodels import GoldenRatioModel, CATARCSModel
+from mathmodels import GoldenRatioModel
 from utils import compute_difference_coarray, prepare_grid, visualize_consecutive_lags
 
 
 if __name__ == "__main__":
     # Define parameters for the CATARCS model
-    M, N = 4, 5 # Coprime integers
+    M, N = 3, 4 # Coprime integers
     d = 1  # Inter-element spacing (normalized units)
 
     # Create an instance of the models
     golden_ratio_model = GoldenRatioModel(M, N, d)
-    catarcs_model = CATARCSModel(M, N, d, F=2)  # Using F=3 for CATARCS model
-
+    
     # Get sensor positions
-    sensor_positions = catarcs_model.sensor_positions()
-    print("Number of Sensors:", catarcs_model.number_of_sensors)
+    sensor_positions = golden_ratio_model.sensor_positions()
+    print("Number of Sensors:", golden_ratio_model.number_of_sensors)
     print("Degrees of Freedom:", golden_ratio_model.dof)
     print("Sensor Positions:", sensor_positions)
-    print("Actual Sensor Number:", len(sensor_positions))
     # Compute the difference coarray
     coarray = compute_difference_coarray(sensor_positions)
-    print("Difference Coarray:", coarray)
+    print("\nDifference Coarray:", coarray)
 
     # Prepare the grid for visualization
-    range_value = 100  # Define the range for the grid
+    range_value = 50  # Define the range for the grid
     grid = prepare_grid(range_value, coarray)
 
     # Visualize the consecutive lags
